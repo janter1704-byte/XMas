@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veselé Vánoce</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Aptos', sans-serif;
+            background: linear-gradient(135deg, #193661 0%, #1a4a7a 50%, #193661 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            user-select: none;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .container {
+            z-index: 2;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            position: relative;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .ornament {
+            font-size: 4em;
+            margin-bottom: 1rem;
+            animation: swing 3s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #BB9B6A;
+            font-size: 3.2em;
+            margin-bottom: 1.5rem;
+        }
+
+        .wish {
+            color: #193661;
+            font-size: 1.2em;
+            line-height: 1.9;
+            margin-top: 1.5rem;
+        }
+
+        .logo {
+            margin-top: 2.5rem;
+            max-width: 200px;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Tlačítko pro hudbu */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #BB9B6A;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: 0.2s;
+        }
+        .music-btn:hover {
+            opacity: 1;
+        }
+
+        /* Audio přehrávač skrytý */
+        #bg-music {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HUDBA (MP3) -->
+    <audio id="bg-music" loop>
+        <source src="vanoce.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <div class="ornament">🎄</div>
+        <h1>Veselé Vánoce</h1>
+        <p class="wish">
+            Artmediz děkuje za spolupráci a důvěru v uplynulém roce.<br>
+            Přejeme Vám radostné sváteční dny plné klidu, pohody<br>
+            a blízkosti těch, na kterých záleží.<br><br>
+            Do roku 2026 přejeme pevné zdraví, inspiraci, energii<br>
+            a mnoho pracovních i osobních úspěchů.<br><br>
+            <strong>PF 2026</strong>
+        </p>
+
+        <img src="logo.png" alt="Artmediz logo" class="logo">
+    </div>
+
+    <!-- Tlačítko pro spuštění hudby -->
+    <button class="music-btn" id="music-toggle">▶︎ Spustit hudbu</button>
+
+    <script>
+        // Sníh
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 5 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 1.5 + 0.5 + 'em';
+            document.body.appendChild(snowflake);
+            setTimeout(() => { snowflake.remove(); }, 8000);
+        }
+        setInterval(createSnowflake, 200);
+
+        // Hudba – tlačítko
+        const music = document.getElementById('bg-music');
+        const button = document.getElementById('music-toggle');
+        music.volume = 0.4;
+
+        button.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                button.textContent = '⏸︎ Vypnout hudbu';
+            } else {
+                music.pause();
+                button.textContent = '▶︎ Spustit hudbu';
+            }
+        });
+    </script>
+
+</body>
+</html>
